@@ -18,6 +18,7 @@ namespace Swiss_CS
 	{
 		private BufferObject vbo = new BufferObject();
 		private BufferObject cbo = new BufferObject();
+		private ShaderProgram sp = new ShaderProgram();
 
 		string VertexShader = 
 		@"#version 400
@@ -95,39 +96,19 @@ namespace Swiss_CS
 
 		void CreateShaders()
 		{
-			// Create a vertex shader object and store its identifier in the VertexShaderId variable
-			VertexShaderId = GL.CreateShader(ShaderType.VertexShader);
-			// Copy the source code to the specified vertex shader object
-			GL.ShaderSource(VertexShaderId, VertexShader);
-			// Compile the source code
-			GL.CompileShader(VertexShaderId);
- 
-			// Create, copy, and compile the fragment shader likewise
-			FragmentShaderId = GL.CreateShader(ShaderType.FragmentShader);
-			GL.ShaderSource(FragmentShaderId, FragmentShader);
-			GL.CompileShader(FragmentShaderId);
- 
-			// Create a shader program object and store its identifier in the ProgramId variable
-			ProgramId = GL.CreateProgram();
-				// Attach the shaders to the shader program object
-				GL.AttachShader(ProgramId, VertexShaderId);
-				GL.AttachShader(ProgramId, FragmentShaderId);
-			// Link the shader program and start using it.
-			GL.LinkProgram(ProgramId);
-			GL.UseProgram(ProgramId);
+			var vertSh = new Shader();
+			vertSh.Generate(VertexShader, ShaderType.VertexShader);
+			var fragSh = new Shader();
+			fragSh.Generate(FragmentShader, ShaderType.FragmentShader);
+			sp.Add(vertSh);
+			sp.Add(fragSh);
+
+			sp.Create();
 		}
 
 		void DestroyShaders()
 		{
-			GL.UseProgram(0);
-
-			GL.DetachShader(ProgramId, VertexShaderId);
-			GL.DetachShader(ProgramId, FragmentShaderId);
-
-			GL.DeleteShader(FragmentShaderId);
-			GL.DeleteShader(VertexShaderId);
-
-			GL.DeleteProgram(ProgramId);
+			sp.Destroy();
 		}
 
 		/// <summary>
