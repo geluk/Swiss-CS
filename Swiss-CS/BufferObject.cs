@@ -48,8 +48,8 @@ namespace Swiss_CS
 		public BufferObject()
 		{
 			if (UsedIds == null) {
-				int maxIds;
-				GL.GetInteger(GetPName.MaxVertexAttribs, out maxIds);
+				int maxIds = 16;
+				//GL.GetInteger(GetPName.MaxVertexAttribs, out maxIds);
 
 				UsedIds = new bool[maxIds];
 			}
