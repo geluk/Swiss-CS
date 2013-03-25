@@ -8,7 +8,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace Swiss_CS
 {
-	class Shader
+	class Shader : IDisposable
 	{
 		internal int ShaderId { get; private set; }
 
@@ -20,6 +20,15 @@ namespace Swiss_CS
 			GL.ShaderSource(ShaderId, source);
 			// Compile the source code
 			GL.CompileShader(ShaderId);
+		}
+
+		public void Dispose()
+		{
+			if (ShaderId != -1)
+			{
+				GL.DeleteShader(ShaderId);
+				ShaderId = -1;
+			}
 		}
 	}
 }
