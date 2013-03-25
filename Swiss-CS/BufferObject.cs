@@ -48,7 +48,9 @@ namespace Swiss_CS
 		public BufferObject()
 		{
 			if (UsedIds == null) {
-				var maxIds = 28;
+				int maxIds;
+				GL.GetInteger(GetPName.MaxVertexAttribs, out maxIds);
+
 				UsedIds = new bool[maxIds];
 			}
 			arrayObjectId = -1;
